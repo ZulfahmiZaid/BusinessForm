@@ -190,7 +190,7 @@ export default {
       emailRules:[
           value => {
             if(/^\w+@\w+.\w{2,3}$/.test(value)) return true
-            return "invalid email"
+            return "use this format: e.g example@trash.com"
           }
       ],
       phoneRules:[
@@ -202,7 +202,7 @@ export default {
       zipRules:[
           value => {
             if(/\d{5}/g.test(value)) return true
-            return "invalid input: e.g 52XXX"
+            return "use this format: e.g 52XXX"
           }
       ]
     }
