@@ -1,8 +1,8 @@
-import './assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import {createVuetify} from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import '@mdi/font/css/materialdesignicons.css'
 
 // Vuetify components
 import {
@@ -10,7 +10,13 @@ import {
     VDatePicker,
     VTextField,
     VForm,
-    VMenu
+    VMenu,
+    VSelect,
+    VRadioGroup,
+    VRadio,
+    VContainer,
+    VRow,
+    VCol
 } from "vuetify/components";
 
 
@@ -23,7 +29,13 @@ const vuetify = new createVuetify({
         VDatePicker,
         VTextField,
         VForm,
-        VMenu
+        VMenu,
+        VSelect,
+        VRadioGroup,
+        VRadio,
+        VContainer,
+        VRow,
+        VCol
     }
 });
 

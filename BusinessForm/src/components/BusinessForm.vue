@@ -1,23 +1,197 @@
 <template>
-  <v-form id="BusinessForm" method="post">
-    <v-text-field label="Firstname"></v-text-field>
-    <v-text-field label="Lastname"></v-text-field>
+  <v-form class="px-3 py-3" id="BusinessForm" @submit="print_JSON" method="post">
 
-    <v-menu>
-      <v-text-field slot="activator" label="Birthdate"></v-text-field>
-      <v-date-picker></v-date-picker>
+    <v-container class="grid_container">
+      <v-row>
+        <v-col>
+          <v-text-field
+              label="Firstname"
+              variant="underlined"
+              v-model="user_data.firstname"/>
+        </v-col>
+        <v-col>
+          <v-text-field
+              label="Lastname"
+              variant="underlined"
+              v-model="user_data.lastname"/>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        transition="scale-transition"
+    >
+      <template v-slot:activator="{on, attrs}">
+        <v-text-field
+            v-model="user_data.birthdate"
+            label="Birthdate"
+            append-icon="mdi-calendar"
+            variant="underlined"
+            :readonly="true"
+            v-bind="attrs"
+            v-on="on"
+        ></v-text-field>
+      </template>
+      <v-date-picker
+          v-model="user_data.birthdate"
+          @input="menu = false"
+      ></v-date-picker>
     </v-menu>
 
-    <v-text-field label="Email" placeholder="example@trashmail.com" type="email"></v-text-field>
+    <v-text-field
+        label="Email"
+        placeholder="example@trashmail.com"
+        variant="underlined"
+        type="email"
+        hint="Please Enter A Valid Email"
+        v-model="user_data.email.value"/>
+
+    <v-container class="grid_container">
+      <v-row>
+        <v-col>
+          <v-select
+              :items="email_type"
+              label="Type"
+              variant="underlined"
+              placeholder="Please Select One"
+              v-model="user_data.email.type"
+              :clearable="true"/>
+        </v-col>
+        <v-col>
+          <v-radio-group class="radio" label="Primary" v-model="user_data.email.primary" :inline="true">
+            <v-radio
+                label="Yes"
+                :value="true"/>
+            <v-radio
+                label="No"
+                :value="false"/>
+          </v-radio-group>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-text-field
+        label="Phone"
+        placeholder="+49 XXX XXX XXXXX"
+        variant="underlined"
+        hint="Please Follow The Format"
+        v-model="user_data.phone.value"/>
+
+    <v-container class="grid_container">
+      <v-row>
+        <v-col>
+          <v-select
+              :items="phone_type"
+              label="Type"
+              variant="underlined"
+              placeholder="Please Select One"
+              v-model="user_data.phone.type"
+              :clearable="true"/>
+        </v-col>
+        <v-col>
+          <v-radio-group class="radio" label="Primary" v-model="user_data.phone.primary" :inline="true">
+            <v-radio
+                label="Yes"
+                :value="true"/>
+            <v-radio
+                label="No"
+                :value="false"/>
+          </v-radio-group>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container class="grid_container">
+      <v-row>
+        <v-col>
+          <v-text-field
+              label="Street"
+              variant="underlined"
+              placeholder="Street, No."
+              v-model="user_data.street"/>
+        </v-col>
+        <v-col>
+          <v-text-field
+              label="ZIP"
+              variant="underlined"
+              placeholder="52XXX"
+              v-model="user_data.zip"/>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+              label="City"
+              variant="underlined"
+              placeholder="e.g Aachen"
+              v-model="user_data.city"/>
+        </v-col>
+        <v-col>
+          <v-text-field
+              label="Country"
+              variant="underlined"
+              placeholder="e.g Germany"
+              v-model="user_data.country"/>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-btn type="submit" class="float-right">Submit</v-btn>
+
   </v-form>
 </template>
 
 <script>
 export default {
-  name: "BuisnessForm"
+  name: "BusinessForm",
+  data() {
+    return{
+      // user input data (v-models)
+      user_data:{
+        firstname: null,
+        lastname: null,
+        birthdate: null,
+        menu: false,
+        email: {
+          type: null,
+          value: null,
+          primary: null // boolean
+        },
+        phone:{
+          type: null,
+          value: null, // international format
+          primary: null // boolean
+        },
+        street: null,
+        zip: null,
+        city: null,
+        country: null
+      },
+      // available choices
+      email_type: ["business","private"],
+      phone_type: ["primary", "mobile", "business", "private"],
+      // menu visibility
+      menu: false
+    }
+  },
+  methods:{
+    print_JSON(e){
+      console.log(JSON.stringify(this.user_data))
+      e.preventDefault()
+    }
+  }
 }
 </script>
 
 <style scoped>
-
+  .grid_container{
+    padding: 0;
+  }
+  .radio{
+    padding: 0;
+    font-size: .8rem;
+    height: 2rem;
+  }
 </style>
