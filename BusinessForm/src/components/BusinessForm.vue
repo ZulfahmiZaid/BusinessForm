@@ -31,7 +31,7 @@
             label="Birthdate"
             variant="underlined"
             append-icon="mdi-calendar"
-            placeholder="DD-MM-YYYY"
+            placeholder="YYYY-MM-DD"
             :readonly="true"
             v-bind="props"
             :clearable="true"
@@ -132,11 +132,13 @@
               v-model="user_data.city"/>
         </v-col>
         <v-col>
-          <v-text-field
+          <v-select
+              :items="countries"
               label="Country"
               variant="underlined"
-              placeholder="e.g Germany"
-              v-model="user_data.country"/>
+              placeholder="Please Select One"
+              v-model="user_data.country"
+              :clearable="true"/>
         </v-col>
       </v-row>
     </v-container>
@@ -148,12 +150,11 @@
 
 <script>
 import moment from "moment";
-
 export default {
   name: "BusinessForm",
   data() {
     return{
-      // user input data (v-models)
+      // user credentials
       user_data:{
         firstname: null,
         lastname: null,
@@ -165,19 +166,33 @@ export default {
         },
         phone:{
           type: null,
-          value: null, // international format
+          value: null, // +49 XXX XXX XXXX
           primary: null // boolean
         },
         street: null,
         zip: null,
         city: null,
-        country: null
+        country: null // ISO 3166-1 Alpha 2
       },
-      // available choices
-      email_type: ["business","private"],
-      phone_type: ["primary", "mobile", "business", "private"],
+      // available SELECT choices
+      email_type: [
+          "business",
+          "private"
+      ],
+      phone_type: [
+          "primary",
+          "mobile",
+          "business",
+          "private"],
+      countries:[
+          'DE (Germany)',
+          'BE (Belgium)',
+          'GB (United Kingdom)',
+          'FR (France)',
+          'MY (Malaysia)'
+      ],
       // helper data
-      menu: false,
+      menu: false, // VMenu toggle
       formattedDate: moment().format("DD-MM-YYYY"),
       // front-end validation
       nameRules: [
@@ -209,13 +224,15 @@ export default {
   },
   methods: {
     print_JSON(e) {
+      this.user_data.birthdate = this.formattedDate
+      this.user_data.country = this.user_data.country.slice(0,2)
       console.log(JSON.stringify(this.user_data))
       e.preventDefault()
     }
   },
   watch:{
     'user_data.birthdate'(newVal, oldVal){
-      this.formattedDate = moment(newVal).format('DD-MM-YYYY')
+      this.formattedDate = moment(newVal).format('YYYY-MM-DD')
     }
   }
 }

@@ -2,8 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import {createVuetify} from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
-import '@mdi/font/css/materialdesignicons.css'
-import moment from "moment";
+import '@mdi/font/css/materialdesignicons.css';
 
 // Vuetify components
 import {
@@ -36,7 +35,7 @@ const vuetify = new createVuetify({
         VRadio,
         VContainer,
         VRow,
-        VCol
+        VCol,
     }
 });
 
