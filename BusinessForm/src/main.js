@@ -3,6 +3,7 @@ import App from './App.vue';
 import {createVuetify} from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css'
+import moment from "moment";
 
 // Vuetify components
 import {

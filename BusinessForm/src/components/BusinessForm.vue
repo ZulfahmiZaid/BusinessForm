@@ -25,21 +25,19 @@
         :close-on-content-click="false"
         transition="scale-transition"
     >
-      <template v-slot:activator="{on, attrs}">
+      <template v-slot:activator="{ props }">
         <v-text-field
-            v-model="user_data.birthdate"
+            v-model="formattedDate"
             label="Birthdate"
-            append-icon="mdi-calendar"
             variant="underlined"
+            append-icon="mdi-calendar"
+            placeholder="DD-MM-YYYY"
             :readonly="true"
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
+            :clearable="true"
         ></v-text-field>
       </template>
-      <v-date-picker
-          v-model="user_data.birthdate"
-          @input="menu = false"
-      ></v-date-picker>
+      <v-date-picker v-model="user_data.birthdate"/>
     </v-menu>
 
     <v-text-field
@@ -149,6 +147,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "BusinessForm",
   data() {
@@ -158,7 +158,6 @@ export default {
         firstname: null,
         lastname: null,
         birthdate: null,
-        menu: false,
         email: {
           type: null,
           value: null,
@@ -177,12 +176,13 @@ export default {
       // available choices
       email_type: ["business","private"],
       phone_type: ["primary", "mobile", "business", "private"],
-      // menu visibility
+      // helper data
       menu: false,
+      formattedDate: moment().format("DD-MM-YYYY"),
       // front-end validation
       nameRules: [
           value => {
-            if(value === '') return 'required'
+            if(!value) return 'required'
             if(/\w+[^0-9]/.test(value)) return true
             return 'only characters allowed (a-z)'
           }
@@ -207,10 +207,15 @@ export default {
       ]
     }
   },
-  methods:{
-    print_JSON(e){
+  methods: {
+    print_JSON(e) {
       console.log(JSON.stringify(this.user_data))
       e.preventDefault()
+    }
+  },
+  watch:{
+    'user_data.birthdate'(newVal, oldVal){
+      this.formattedDate = moment(newVal).format('DD-MM-YYYY')
     }
   }
 }
