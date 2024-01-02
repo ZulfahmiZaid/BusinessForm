@@ -7,12 +7,14 @@
           <v-text-field
               label="Firstname"
               variant="underlined"
+              :rules="nameRules"
               v-model="user_data.firstname"/>
         </v-col>
         <v-col>
           <v-text-field
               label="Lastname"
               variant="underlined"
+              :rules="nameRules"
               v-model="user_data.lastname"/>
         </v-col>
       </v-row>
@@ -42,6 +44,7 @@
 
     <v-text-field
         label="Email"
+        :rules="emailRules"
         placeholder="example@trashmail.com"
         variant="underlined"
         type="email"
@@ -75,6 +78,7 @@
     <v-text-field
         label="Phone"
         placeholder="+49 XXX XXX XXXXX"
+        :rules="phoneRules"
         variant="underlined"
         hint="Please Follow The Format"
         v-model="user_data.phone.value"/>
@@ -116,6 +120,7 @@
           <v-text-field
               label="ZIP"
               variant="underlined"
+              :rules="zipRules"
               placeholder="52XXX"
               v-model="user_data.zip"/>
         </v-col>
@@ -173,7 +178,33 @@ export default {
       email_type: ["business","private"],
       phone_type: ["primary", "mobile", "business", "private"],
       // menu visibility
-      menu: false
+      menu: false,
+      // front-end validation
+      nameRules: [
+          value => {
+            if(value === '') return 'required'
+            if(/\w+[^0-9]/.test(value)) return true
+            return 'only characters allowed (a-z)'
+          }
+      ],
+      emailRules:[
+          value => {
+            if(/^\w+@\w+.\w{2,3}$/.test(value)) return true
+            return "invalid email"
+          }
+      ],
+      phoneRules:[
+         value => {
+            if(/^\+\d{2}\s\d{3}\s\d{3}\s\d{4}/.test(value)) return true
+            return "use this format: +49 XXX XXX XXXX"
+         }
+      ],
+      zipRules:[
+          value => {
+            if(/\d{5}/g.test(value)) return true
+            return "invalid input: e.g 52XXX"
+          }
+      ]
     }
   },
   methods:{
