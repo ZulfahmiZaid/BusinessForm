@@ -4,7 +4,7 @@ import BusinessForm from './components/BusinessForm.vue';
 
 <template>
     <div id="app">
-      <h2 class="text-center pt-2">Task 1: Business Form</h2>
+      <h2 class="text-center pt-2">Task A: Business Form</h2>
       <business-form></business-form>
     </div>
 </template>
