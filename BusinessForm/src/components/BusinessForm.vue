@@ -1,5 +1,10 @@
 <template>
-  <v-form class="px-3 py-3" id="BusinessForm" @submit="print_JSON" method="post">
+  <v-form
+      class="px-3 py-3"
+      id="BusinessForm"
+      method="post"
+      @submit="print_JSON"
+  >
 
     <v-container class="grid_container">
       <v-row>
@@ -224,8 +229,14 @@ export default {
   },
   methods: {
     print_JSON(e) {
-      this.user_data.birthdate = this.formattedDate
-      this.user_data.country = this.user_data.country.slice(0,2)
+
+      // reformat user credentials
+      if(this.user_data.birthdate)
+        this.user_data.birthdate = this.formattedDate
+
+      if(this.user_data.country)
+          this.user_data.country = this.user_data.country.slice(0,2)
+
       console.log(JSON.stringify(this.user_data))
       e.preventDefault()
     }
